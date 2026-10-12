@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E3 - Prototipo AES y RSA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Source+Code+Pro&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+  <header class="encabezado">
+    <div class="contenedor">
+      <div>
+        <h1>E3 . prototipo AES + RSA</h1>
+        <p class="escuela">Universidad Autónoma de Ciudad Juárez · Instituto de Ingeniería y Tecnología</p>
+      </div>
+      <p class="datos">
+        Blanca Dariela<br>
+        Matrícula 214568<br>
+        Ingeniería en Software · Seguridad en Cómputo
+      </p>
+    </div>
+  </header>
+
+  <div class="contenedor">
+
+    <section class="tarjeta">
+      <h2>Descripción</h2>
+      <p>
+        Esta aplicación implementa lo visto en el recurso <em>"Algoritmos de clave pública"</em>.
+        Se usa <b>AES-256</b> como algoritmo simétrico para cifrar los mensajes y <b>RSA</b> como algoritmo
+        asimétrico para cifrar la clave de sesión y para hacer firmas digitales. Todo se hace en el navegador
+        con la Web Crypto API de JavaScript, no se manda nada a ningún servidor.
+      </p>
+      <p>Participantes: <b>A</b> (emisor), <b>B</b> (receptor), <b>C</b> (intruso) y <b>T</b> (amigo en común que certifica claves).</p>
+    </section>
+
+    <!-- Generación de claves -->
+    <section class="tarjeta">
+      <h2>Paso 0. Generar las claves RSA</h2>
+      <div class="fila">
+        <label for="tamClave">Tamaño de clave:</label>
+        <select id="tamClave">
+          <option value="1024">1024 bits</option>
+          <option value="2048" selected>2048 bits</option>
+          <option value="4096">4096 bits</option>
+        </select>
+        <button id="btnGenerar" class="boton">Generar claves</button>
+      </div>
+      <p id="estadoClaves" class="nota">Aún no se generan las claves.</p>
+      <div id="tablaClaves"></div>
+    </section>
+
+    <!-- Menú -->
+    <nav class="menu">
+      <button class="pestana activa" data-seccion="secConf">1. Confidencialidad</button>
+      <button class="pestana" data-seccion="secFirma">2. Autenticación</button>
+      <button class="pestana" data-seccion="secMitm">3. Ataque de intermediario</button>
+      <button class="pestana" data-seccion="secRend">4. AES vs RSA</button>
+    </nav>
+
+    <!-- 1. Confidencialidad -->
+    <section id="secConf" class="tarjeta seccion">
+      <h2>1. Confidencialidad (Figura 1 del recurso)</h2>
+      <p>
+        A le pide a B su clave pública. A genera una clave AES aleatoria (clave de sesión), cifra el mensaje con AES
+        y luego cifra la clave de sesión con la clave pública de B usando RSA-OAEP. B usa su clave privada para
+        sacar la clave de sesión y con ella descifra el mensaje.
+      </p>
+      <label for="txtMensaje">Mensaje:</label>
+      <textarea id="txtMensaje" rows="3">Hola B, la reunión del equipo es el lunes a las 10 en el laboratorio. La contraseña del servidor es Juarez#2026</textarea>
+      <div class="fila">
+        <button id="btnCifrar" class="boton" disabled>Cifrar y enviar</button>
+        <button id="btnAlterar" class="boton secundario" disabled>Alterar el mensaje cifrado</button>
+        <button id="btnIntrusoDescifra" class="boton secundario" disabled>Que C intente descifrar</button>
+      </div>
+      <div id="resConf" class="resultados"></div>
+    </section>
+
+    <!-- 2. Autenticación -->
+    <section id="secFirma" class="tarjeta seccion oculto">
+      <h2>2. Autenticación con firma digital (Figura 2 del recurso)</h2>
+      <p>
+        B saca el resumen r(m) del mensaje con SHA-256 y lo cifra con su clave <b>privada</b>, eso es la firma.
+        A descifra la firma con la clave pública de B para obtener r(m), calcula su propio r'(m) y los compara.
+        Si son iguales el mensaje es auténtico.
+      </p>
+      <label for="txtFirma">Mensaje que firma B:</label>
+      <textarea id="txtFirma" rows="2">Confirmo que entrego el prototipo E3 el 11 de octubre. - B</textarea>
+      <button id="btnFirmar" class="boton" disabled>B firma el mensaje</button>
+
+      <label for="txtRecibido">Mensaje que le llega a A (lo puedes cambiar para ver qué pasa si lo alteran):</label>
+      <textarea id="txtRecibido" rows="2"></textarea>
+      <button id="btnVerificar" class="boton" disabled>A verifica la firma</button>
+      <div id="resFirma" class="resultados"></div>
+    </section>
+
+    <!-- 3. MITM -->
+    <section id="secMitm" class="tarjeta seccion oculto">
+      <h2>3. Ataque de intermediario (Figura 3 del recurso)</h2>
+      <p>
+        Cuando A pide la clave pública de B, C se mete en medio y le manda su propia clave. Así C puede leer
+        los mensajes y hacerse pasar por B. Para evitarlo, la clave de B debe venir firmada por un amigo en común (T).
+      </p>
+      <label class="check"><input type="checkbox" id="chkIntercepta" checked> C intercepta la comunicación</label>
+      <label class="check"><input type="checkbox" id="chkCertificado"> A revisa que la clave esté firmada por T</label>
+      <label for="txtMitm">Mensaje de A para B:</label>
+      <textarea id="txtMitm" rows="2">El número de expediente del proyecto es 214-NOT-0925, no lo compartas.</textarea>
+      <button id="btnMitm" class="boton" disabled>Ejecutar</button>
+      <div id="resMitm" class="resultados"></div>
+    </section>
+
+    <!-- 4. Rendimiento -->
+    <section id="secRend" class="tarjeta seccion oculto">
+      <h2>4. Comparación de rendimiento AES vs RSA</h2>
+      <p>
+        El recurso dice que los algoritmos asimétricos son mucho más lentos que los simétricos y que por eso
+        en la práctica solo se usan para cifrar la clave de sesión. Aquí se cifran los mismos datos con AES,
+        con RSA solo (por bloques) y con el esquema híbrido para comparar.
+      </p>
+      <div class="fila">
+        <label for="tamDatos">Datos a cifrar:</label>
+        <select id="tamDatos">
+          <option value="8">8 KB</option>
+          <option value="32" selected>32 KB</option>
+          <option value="64">64 KB</option>
+        </select>
+        <button id="btnRend" class="boton" disabled>Medir</button>
+      </div>
+      <div id="resRend" class="resultados"></div>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Bitácora</h2>
+      <ul id="bitacora"></ul>
+    </section>
+
+  </div>
+
+  <footer>
+    <p>Blanca Dariela · UACJ · Octubre 2026</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

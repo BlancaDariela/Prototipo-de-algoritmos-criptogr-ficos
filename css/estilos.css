@@ -1,0 +1,445 @@
+/* Estilos de la práctica E3
+   Paleta: crema + verde olivo + salvia, con títulos en serif */
+
+
+/* Colores (para cambiarlos fácil) */
+:root {
+  --crema: #f6f0e3;
+  --crema-claro: #fbf8f1;
+  --salvia: #d6dcb8;
+  --salvia-medio: #b3bf8c;
+  --olivo: #5b6b3a;
+  --olivo-oscuro: #3f4b27;
+  --texto: #2f3324;
+  --texto-suave: #6b6f5c;
+  --linea: #e2dccb;
+  --error: #b5533c;
+  --aviso: #c59a3e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 14px;
+  color: var(--texto);
+  background-color: var(--salvia);
+  /* fondo salvia con un "foco" crema al centro */
+  background-image: radial-gradient(ellipse at top, var(--crema) 0%, var(--crema) 35%, var(--salvia) 75%);
+  background-attachment: fixed;
+}
+
+.contenedor {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ===== Encabezado ===== */
+.encabezado {
+  max-width: 1000px;
+  margin: 20px auto 24px;
+  padding: 34px 0;
+  color: var(--crema);
+  background: linear-gradient(160deg, #6f8048 0%, var(--olivo) 50%, var(--olivo-oscuro) 100%);
+  border-radius: 32px;
+  box-shadow: 0 10px 30px rgba(63, 75, 39, 0.25);
+}
+
+.encabezado .contenedor {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0 28px;
+}
+
+.encabezado h1 {
+  margin: 4px 0;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 34px;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+}
+
+.escuela,
+.datos {
+  margin: 0;
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.datos {
+  text-align: right;
+  line-height: 1.6;
+}
+
+/* ===== Tarjetas ===== */
+.tarjeta {
+  background: var(--crema-claro);
+  border: 1px solid var(--linea);
+  border-radius: 26px;
+  padding: 24px 26px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(63, 75, 39, 0.08);
+}
+
+.tarjeta h2 {
+  margin: 0 0 12px;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--texto);
+}
+
+.tarjeta p {
+  line-height: 1.65;
+  color: var(--texto-suave);
+}
+
+.tarjeta b,
+.tarjeta strong {
+  color: var(--olivo);
+}
+
+.tarjeta em {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  color: var(--olivo);
+}
+
+.oculto {
+  display: none;
+}
+
+/* ===== Formularios ===== */
+label {
+  display: block;
+  margin: 14px 0 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--texto-suave);
+}
+
+.fila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.fila label {
+  margin: 0;
+}
+
+textarea,
+select {
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--texto);
+  background: white;
+  border: 1px solid var(--linea);
+  border-radius: 16px;
+  padding: 10px 14px;
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+}
+
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--olivo);
+  box-shadow: 0 0 0 3px rgba(91, 107, 58, 0.15);
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--texto);
+  cursor: pointer;
+}
+
+.check input {
+  accent-color: var(--olivo);
+}
+
+/* ===== Botones tipo píldora ===== */
+.boton {
+  background: var(--olivo);
+  color: var(--crema);
+  border: 1px solid var(--olivo);
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.boton:hover {
+  background: var(--olivo-oscuro);
+}
+
+.boton:active {
+  transform: scale(0.97);
+}
+
+.boton.secundario {
+  background: transparent;
+  color: var(--olivo);
+}
+
+.boton.secundario:hover {
+  background: var(--salvia);
+}
+
+.boton:disabled {
+  background: #d9d6cc;
+  border-color: #d9d6cc;
+  color: #9a978c;
+  cursor: not-allowed;
+}
+
+.nota {
+  color: var(--texto-suave);
+  font-size: 13px;
+}
+
+/* ===== Menú tipo barra de navegación ===== */
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px;
+  margin-bottom: 20px;
+  padding: 6px;
+  background: var(--crema-claro);
+  border: 1px solid var(--linea);
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(63, 75, 39, 0.08);
+}
+
+.pestana {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--texto);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.pestana:hover {
+  background: var(--salvia);
+}
+
+.pestana.activa {
+  background: var(--olivo);
+  color: var(--crema);
+}
+
+/* ===== Resultados (pasos) ===== */
+.resultados {
+  margin-top: 16px;
+}
+
+.paso {
+  background: white;
+  border: 1px solid var(--linea);
+  border-left: 5px solid var(--salvia-medio);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  border-radius: 18px;
+}
+
+.paso.bien {
+  border-left-color: var(--olivo);
+}
+
+.paso.mal {
+  border-left-color: var(--error);
+}
+
+.paso.aviso {
+  border-left-color: var(--aviso);
+}
+
+.paso h3 {
+  margin: 0 0 6px;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--texto);
+}
+
+.paso p {
+  margin: 4px 0;
+}
+
+.dato {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 12px;
+  color: var(--olivo-oscuro);
+  background: #eef0e1;
+  padding: 8px 10px;
+  border-radius: 12px;
+  word-break: break-all;
+  max-height: 140px;
+  overflow-y: auto;
+  margin: 4px 0 8px;
+  white-space: pre-wrap;
+}
+
+.etiqueta {
+  font-size: 11px;
+  color: var(--texto-suave);
+}
+
+.ok {
+  color: var(--olivo) !important;
+  font-weight: 600;
+}
+
+.error {
+  color: var(--error) !important;
+  font-weight: 600;
+}
+
+/* ===== Tablas ===== */
+.tabla-scroll {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--linea);
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+tr:hover td {
+  background: #f1f3e6;
+}
+
+td small {
+  color: var(--texto-suave);
+}
+
+td.mono {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 12px;
+  color: var(--olivo);
+  word-break: break-all;
+}
+
+details summary {
+  cursor: pointer;
+  color: var(--olivo);
+  font-size: 12px;
+  margin: 2px 0;
+}
+
+.barra {
+  height: 8px;
+  margin-bottom: 4px;
+  border-radius: 999px;
+  background: var(--olivo);
+}
+
+/* ===== Bitácora ===== */
+#bitacora {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 12px;
+  color: var(--texto-suave);
+  max-height: 250px;
+  overflow-y: auto;
+  padding-left: 18px;
+  margin: 0;
+}
+
+#bitacora li {
+  margin-bottom: 4px;
+}
+
+#bitacora li::marker {
+  color: var(--olivo);
+}
+
+/* scroll */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--salvia-medio);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+footer {
+  text-align: center;
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  color: var(--olivo);
+  font-size: 14px;
+  padding: 10px 0 30px;
+}
+
+@media (max-width: 600px) {
+  .encabezado {
+    margin: 12px 12px 20px;
+    border-radius: 24px;
+  }
+
+  .encabezado h1 {
+    font-size: 26px;
+  }
+
+  .datos {
+    text-align: left;
+  }
+
+  .menu {
+    border-radius: 20px;
+  }
+
+  .pestana {
+    flex: none;
+  }
+}
